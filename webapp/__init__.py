@@ -3,10 +3,10 @@ from flask_migrate import Migrate
 
 #from webapp.model import db # what exactly db?
 from webapp.weatherhere import weather_by_city
-def creat_app(): # creat fabric function -creates and initializes flask application object
+def create_app(): # create fabric function -creates and initializes flask application object
     app = Flask(__name__)
     app.config.from_pyfile('config.py') #take configuration file
-    migrate = Migrate(app) # db?
+    #migrate = Migrate(app, db) # db?
     print('test done')
 
     @app.route("/")  # browser requested main page
