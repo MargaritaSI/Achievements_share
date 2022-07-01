@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% block content %}
+<div class = 'container-fluid vh-100'>
+    <div class="row justify-content-start pt-3">
+        <div class="col-lg-8 col-xs-8">
+            {% for news in news_list %}
+                {% if news.published %}    
+                    <h3><a href="{{news.url}}">{{news.title}}</a></h3>
+                    <p>{{news.published.strftime('%d.%m.%Y')}}</p>
+                    <hr />
+                {% else %}
+                    <p>{{news}}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-lg-4 col-xs-4">
+            <h2> weather forecast </h2>
+            {% if weather_text %}
+                weather now: {{ weather_text.temp_C }}, feels like {{ weather_text.FeelsLikeC }}
+            {% else %}
+                weather service currently is unavailable
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

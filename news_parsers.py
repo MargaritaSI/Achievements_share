@@ -1,7 +1,9 @@
-# TODO: save_articles function, to keep articles in the database
-
 import requests
+
 from bs4 import BeautifulSoup
+from datetime import datetime
+from webapp import create_app
+from webapp.model import News
 
 
 def get_articles_by_tag(url, tag="productivity"):
@@ -59,23 +61,24 @@ def parse_medium_article(soup):
     return articles
 
 
+def save_news(source, title, url, published):
+    news_exists = News.query.filter(News.url == url).count()
+    print(news_exists)
+    if not news_exists:
+        news_news = News(
+            title=title, url=url, published=published, source=source
+        )
+        db_session.add(news_news)
+        db_session.commit()
+
+
 if __name__ == "__main__":
-    medium_articles = get_articles_by_tag(
-        "https://medium.com/tag/",
-        "life-lessons"
-    )
-    ladders_articles = get_articles_by_tag(
-        "https://www.theladders.com/career-advice/tag/",
-        "motivation"
-    )
-    hays_articles = get_articles_by_tag(
-        "https://social.hays.com/tag/",
-        "motivation"
-    )
+    app = create_app()
+    with app.app_context():
+        medium_articles = get_articles_by_tag(
+            "https://medium.com/tag/",
+            "life-lessons"
+        )
 
-    articles = medium_articles + ladders_articles + hays_articles
-
-    for article in articles:
-        source, title, url = article
-        print(f"[{source}] {title}")
-        print(url)
+        for article in medium_articles:
+            save_news(*(article + (datetime.now(),)))

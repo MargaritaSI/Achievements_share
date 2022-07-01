@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+{% block content %}
+<div class = 'container-fluid vh-100'>
+    <div class="row justify-content-start h-100">
+        <div class="col-lg-2 col-sm-2 pt-3">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Today</li>
+                <li class="list-group-item">7 days</li>
+                <li class="list-group-item">Notes</li>
+                <li class="list-group-item">Tags</li>
+                <li class="list-group-item">Habbits</li>
+                <li class="list-group-item">Calendar</li>
+            </ul>
+        </div>
+        <div class="col-lg-5 col-sm-5 p-3">
+            <h4>Today</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        <b>10:00</b> - Йога
+                    </label>                  
+                </li>
+                <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        <b>12:30</b> - Звонок
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        <b>18:00</b> - встреча
+                    </label>
+                  </li>
+            </ul>
+        </div>
+        <div class="col-lg-5 col-sm-5 p-3">
+            <h4>Medium priority</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Посмотреть видео
+                    </label>                  
+                </li>
+                <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Почитать
+                    </label>
+                </li>
+            </ul>
+            <h4 class="mt-4">Low priority</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Собрать вещи
+                    </label>                  
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

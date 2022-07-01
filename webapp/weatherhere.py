@@ -1,6 +1,7 @@
 from flask import current_app
 import requests
 
+
 def weather_by_city(city_name):
     weather_url = current_app.config['WEATHER_URL']
     params = {
@@ -20,7 +21,8 @@ def weather_by_city(city_name):
                     return weather["data"]["current_condition"][0]
                 except (IndexError, TypeError):
                     return False
-    except (requests.RequestExeption, ValueError): # check if incorrectly formulated result (JSON)
+    # check if incorrectly formulated result (JSON)
+    except (requests.RequestException, ValueError):
         print("Server error")
         return False
     return False

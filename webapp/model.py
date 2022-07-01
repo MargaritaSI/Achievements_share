@@ -1,26 +1,50 @@
-from sqlalchemy import Column, Integer, String # for creat model
-
-from db import Base, engine
-
-class User(Base): # model=python class
-    __tablename__ = 'users' # creat spreadsheet
-
-    id = Column(Integer, primary_key=True) # creat columns
-    username = Column(String)
-    privilege = Column(String)
-    urgency = Column(String)
-    password = Column(String(4)) # with integers?
-    todo_list = Column(String)
-    name_business = Column(String)
-    done = Column(String)
-    not_done = Column(String)
-    data_business = Column(Integer)
-    email = Column(String(120), unique = True) # max len string + unic email
+from webapp.db import db
 
 
-    def __repr__(self): # method called when we display user instance in command line
-        return f'User {self.id}, {self.username}, {self.privilege}, {self.urgency}, {self.password}, {self.todo_list},' \
-               f'{self.name_business}, {self.not_done}, {self.done}, {self.data_business}, {self.email}' # we can see id + name.. of user for our understanding
+class News(db.Model):
+    __tablename__ = 'news'
 
-if __name__== '__main__': # if we call it directly then we create a table
-    Base.metadata.create_all(bind=engine)  # creates a corresponding table in the database
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    url = db.Column(db.String, unique=True, nullable=False)
+    published = db.Column(db.DateTime, nullable=False)
+    source = db.Column(db.String)
+    disabled = db.Column(db.Boolean, default=False)
+
+    def __repr__(self):
+        return (f"News {self.id}, {self.title}, {self.url}"
+                f"{self.published}, {self.disabled}")
+
+
+class Tasks(db.Model):
+    __tablename__ = 'tasks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    name = db.Column(db.String(500))
+    priority = db.Column(db.Integer)
+    description = db.Column(db.Text)
+    due = db.Column(db.DateTime)
+    completed = db.Column(db.Boolean)
+    shared = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return (f"Task {self.id}, {self.user_id}, {self.name}"
+                f"{self.priority}, {self.description}, {self.due_date}")
+
+
+class User(db.Model):  # model=python class
+    __tablename__ = 'users'  # creat spreadsheet
+
+    id = db.Column(db.Integer, primary_key=True)  # creat columns
+    username = db.Column(db.String)
+    privilege = db.Column(db.String)
+    urgency = db.Column(db.String)
+    password = db.Column(db.String(4))  # with integers?
+    todo_list = db.Column(db.String)
+    name_business = db.Column(db.String)
+    done = db.Column(db.String)
+    not_done = db.Column(db.String)
+    data_business = db.Column(db.Integer)
+    # max len string + unic email
+    email = db.Column(db.String(120), unique=True)
