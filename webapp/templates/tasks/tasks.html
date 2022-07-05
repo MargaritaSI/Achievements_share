@@ -1,10 +1,15 @@
 {% extends "index.html" %}
 {% block content %}
-<div class = 'container-fluid vh-100'>
+<div class = 'container vh-100'>
     <div class="row justify-content-start h-100">
         <div class="col-lg-2 col-sm-2 pt-3">
             <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a href="#" class="link-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#addTask">
+                         + Add task</a>
+                </li>                
                 <li class="list-group-item">Today</li>
+                <li class="list-group-item">Tomorrow</li>
                 <li class="list-group-item">7 days</li>
                 <li class="list-group-item">Notes</li>
                 <li class="list-group-item">Tags</li>
@@ -15,52 +20,96 @@
         <div class="col-lg-5 col-sm-5 p-3">
             <h4>Today</h4>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        <b>10:00</b> - Йога
-                    </label>                  
-                </li>
-                <li class="list-group-item">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        <b>12:30</b> - Звонок
-                    </label>
-                </li>
-                <li class="list-group-item">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        <b>18:00</b> - встреча
-                    </label>
-                  </li>
+                {% for task in tasks_list %}
+                    {% if task.priority == 1 %}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-1">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                                </div>
+                                <div class="col-11">
+                                    {{task.task}}
+                                    <div class="text-primary">
+                                        {{task.due.strftime('%H:%M')}}
+                                    </div>
+                                </div>
+                            </div> 
+                        </li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </div>
         <div class="col-lg-5 col-sm-5 p-3">
             <h4>Medium priority</h4>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Посмотреть видео
-                    </label>                  
-                </li>
-                <li class="list-group-item">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Почитать
-                    </label>
-                </li>
+                {% for task in tasks_list %}
+                    {% if task.priority == 2 %}
+                    <li class="list-group-item">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
+                        <label class="form-check-label" for="flexCheckDefault4">
+                            {{task.task}}
+                        </label>                  
+                    </li>
+                    {% endif %}
+                {% endfor %}
             </ul>
             <h4 class="mt-4">Low priority</h4>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Собрать вещи
-                    </label>                  
-                </li>
+                {% for task in tasks_list %}
+                    {% if task.priority == 3 %}
+                    <li class="list-group-item">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
+                        <label class="form-check-label" for="flexCheckDefault4">
+                            {{task.task}}
+                        </label>                  
+                    </li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="addTask" tabindex="-1" aria-labelledby="addTaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">What do you want to do?</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="priority" class="form-label">Priority</label>
+                <select class="form-select" id="selectPriority">     
+                    <option value="1">High</option>
+                    <option value="2">Medium</option>
+                    <option value="3">Low</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="dateInput" placeholder="dd/mm/yyyy">
+                      </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group" id="timeDiv">
+                        <label for="time" class="form-label">Time</label>
+                        <input type="time" class="form-control" id="timeInput">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>  
 {% endblock %}

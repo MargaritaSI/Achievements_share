@@ -21,9 +21,8 @@ class Tasks(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
-    name = db.Column(db.String(500))
+    task = db.Column(db.String(500))
     priority = db.Column(db.Integer)
-    description = db.Column(db.Text)
     due = db.Column(db.DateTime)
     completed = db.Column(db.Boolean)
     shared = db.Column(db.Boolean)
