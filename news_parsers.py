@@ -3,7 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from webapp import create_app
-from webapp.model import News
+from webapp.db import db
+from webapp.news.models import News
 
 
 def get_articles_by_tag(url, tag="productivity"):
@@ -68,8 +69,8 @@ def save_news(source, title, url, published):
         news_news = News(
             title=title, url=url, published=published, source=source
         )
-        db_session.add(news_news)
-        db_session.commit()
+        db.session.add(news_news)
+        db.session.commit()
 
 
 if __name__ == "__main__":

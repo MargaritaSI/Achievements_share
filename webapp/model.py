@@ -1,37 +1,6 @@
 from webapp.db import db
 
 
-class News(db.Model):
-    __tablename__ = 'news'
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, nullable=False)
-    url = db.Column(db.String, unique=True, nullable=False)
-    published = db.Column(db.DateTime, nullable=False)
-    source = db.Column(db.String)
-    disabled = db.Column(db.Boolean, default=False)
-
-    def __repr__(self):
-        return (f"News {self.id}, {self.title}, {self.url}"
-                f"{self.published}, {self.disabled}")
-
-
-class Tasks(db.Model):
-    __tablename__ = 'tasks'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    task = db.Column(db.String(500))
-    priority = db.Column(db.Integer)
-    due = db.Column(db.DateTime)
-    completed = db.Column(db.Boolean)
-    shared = db.Column(db.Boolean)
-
-    def __repr__(self):
-        return (f"Task {self.id}, {self.user_id}, {self.name}"
-                f"{self.priority}, {self.description}, {self.due_date}")
-
-
 class User(db.Model):  # model=python class
     __tablename__ = 'users'  # creat spreadsheet
 

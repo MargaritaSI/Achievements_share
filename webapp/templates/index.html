@@ -3,18 +3,22 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ page_title}}</title>
+    <title>Achievement share</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   </head>
   <body>
     {% include "navbar.html" %}
     {% block content %} {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous">
+    </script>
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous">
+    </script>
     <script>
-        $('#addTask').on('hidden.bs.modal', function (e) {
-            $('#addTask').find("input, textarea").val("");
-        })
         $("#selectPriority").change(function() {
             var value = $("#selectPriority option:selected").text();
             if (value == 'Medium' || value == 'Low') {
@@ -24,6 +28,27 @@
                 $("#timeDiv").css("display", "block")
             }
         })
+        $("input[name^=check_task]").click(function() {
+            if($(this).is(":checked")) {
+                $.post(
+                    "{{ url_for('tasks.complete_task') }}",
+                    { task_id: this.value },
+                      () => window.location.reload()
+                       /*
+                            {
+                                checked = $(`#li-task-${this.value}`)
+                                parent = checked.closest('ul');
+                                if (parent.children().length-1 == 0) {
+                                    parent.closest('h4').remove()
+                                    parent.remove()
+                                } else {
+                                    checked.remove()
+                                }
+                            }
+                        */
+                );
+            }
+        });
     </script>
   </body>
 </html>

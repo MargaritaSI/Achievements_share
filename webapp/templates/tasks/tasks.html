@@ -7,10 +7,10 @@
                 <li class="list-group-item">
                     <a href="#" class="link-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#addTask">
                          + Add task</a>
-                </li>                
-                <li class="list-group-item">Today</li>
-                <li class="list-group-item">Tomorrow</li>
-                <li class="list-group-item">7 days</li>
+                </li>
+                <li class="list-group-item"><a href="{{ url_for('tasks.today') }}" class="nav-link">Today</a></li>
+                <li class="list-group-item"><a href="{{ url_for('tasks.tomorrow') }}" class="nav-link">Tomorrow</a></li>
+                <li class="list-group-item"><a href="{{ url_for('tasks.seven_days') }}" class="nav-link">7 days</a></li>
                 <li class="list-group-item">Notes</li>
                 <li class="list-group-item">Tags</li>
                 <li class="list-group-item">Habbits</li>
@@ -18,54 +18,89 @@
             </ul>
         </div>
         <div class="col-lg-5 col-sm-5 p-3">
-            <h4>Today</h4>
+            <h4>{{ title.capitalize() }}</h4>
+            {% if total_count == 0 %}
+                No tasks for today.
+            {% endif %}
             <ul class="list-group list-group-flush">
                 {% for task in tasks_list %}
                     {% if task.priority == 1 %}
-                        <li class="list-group-item">
+                        <li class="list-group-item" id="li-task-{{task.id}}">
                             <div class="row">
                                 <div class="col-1">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                                    <input class="form-check-input" type="checkbox" value="{{task.id}}" name="check_task{{task.id}}" />
                                 </div>
-                                <div class="col-11">
+                                <div class="col-11 text-break">
                                     {{task.task}}
                                     <div class="text-primary">
-                                        {{task.due.strftime('%H:%M')}}
+                                        {% if title == "7 days" %}
+                                            {{ task.due.strftime("%a, %d %b %Y %H:%M") }}
+                                        {% else %}
+                                            {{task.due.strftime('%H:%M')}}
+                                        {% endif %}
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </li>
                     {% endif %}
                 {% endfor %}
             </ul>
         </div>
         <div class="col-lg-5 col-sm-5 p-3">
-            <h4>Medium priority</h4>
-            <ul class="list-group list-group-flush">
-                {% for task in tasks_list %}
-                    {% if task.priority == 2 %}
-                    <li class="list-group-item">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
-                        <label class="form-check-label" for="flexCheckDefault4">
-                            {{task.task}}
-                        </label>                  
-                    </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-            <h4 class="mt-4">Low priority</h4>
-            <ul class="list-group list-group-flush">
-                {% for task in tasks_list %}
-                    {% if task.priority == 3 %}
-                    <li class="list-group-item">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
-                        <label class="form-check-label" for="flexCheckDefault4">
-                            {{task.task}}
-                        </label>                  
-                    </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
+            {% if medimum_count > 0 %}
+                <h4>Medium priority</h4>
+                <ul class="list-group list-group-flush mb-4">
+                    {% set due_date = {'foo': False} %}
+                    {% for task in tasks_list %}
+                        {% if task.priority == 2 %}
+                            <li class="list-group-item" id="li-task-{{task.id}}">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <input class="form-check-input" type="checkbox" value="{{task.id}}" name="check_task_medium{{task.id}}">
+                                    </div>
+                                    <div class="col-11 text-break">
+                                        <label class="form-check-label">
+                                            {{task.task}}
+                                            <div class="text-primary">
+                                                {% if title == "7 days" %}
+                                                    {{ task.due.strftime("%a, %d %b %Y") }}
+                                                {% endif %}
+                                            </div>
+                                        </label>
+                                    </div>
+                                <div>
+                            </li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if low_count > 0 %}
+            <h4>Low priority</h4>
+                <ul class="list-group list-group-flush">
+                    {% for task in tasks_list %}
+                        {% if task.priority == 3 %}
+                        <li class="list-group-item" id="li-task-{{task.id}}">
+                            <div class="row">
+                                <div class="col-1">
+                                    <input class="form-check-input" type="checkbox" value="{{task.id}}" name="check_task_low{{task.id}}">
+                                </div>
+                                <div class="col-11 text-break">
+                                    <label class="form-check-label">
+                                        {{task.task}}
+                                        <div class="text-primary">
+                                            {% if title == "7 days" %}
+                                                {{ task.due.strftime("%a, %d %b %Y") }}
+                                            {% endif %}
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -77,39 +112,36 @@
           <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">What do you want to do?</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="priority" class="form-label">Priority</label>
-                <select class="form-select" id="selectPriority">     
-                    <option value="1">High</option>
-                    <option value="2">Medium</option>
-                    <option value="3">Low</option>
-                </select>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="dateInput" placeholder="dd/mm/yyyy">
-                      </div>
+        <form action="{{ url_for('tasks.add_task') }}" method="POST">
+            <div class="modal-body">
+                <div class="mb-3">
+                    {{ form.task.label(class="form-label") }}
+                    {{ form.task() }}
+                </p>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group" id="timeDiv">
-                        <label for="time" class="form-label">Time</label>
-                        <input type="time" class="form-control" id="timeInput">
+                <div class="mb-3">
+                    {{ form.priority.label(class="form-label") }}
+                    {{ form.priority() }}
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form.due_date.label(class="form-label") }}
+                        {{ form.due_date() }}
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="timeDiv">
+                            {{ form.due_time.label(class="form-label") }}
+                            {{ form.due_time() }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+            <div class="modal-footer">
+            <a type="button" class="btn btn-secondary" href="{{url_for('tasks.add_task')}}">Cancel</a>
+            {{ form.submit() }}
+            </div>
+        </form>
       </div>
     </div>
-  </div>  
+  </div>
 {% endblock %}
