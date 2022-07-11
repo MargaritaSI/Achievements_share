@@ -1,7 +1,8 @@
 from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import (
-    DateField, SelectField, SubmitField, TextAreaField, TimeField
+    BooleanField, DateField, SelectField,
+    SubmitField, TextAreaField, TimeField,
 )
 from wtforms.validators import DataRequired
 
@@ -19,6 +20,14 @@ class AddTaskForm(FlaskForm):
         choices=PRIORITY_CHOICES,
         validators=[DataRequired()],
         render_kw={"class": "form-select", "id": "selectPriority"}
+    )
+    datetime_toggle = BooleanField(
+        'Date and time',
+        render_kw={
+            "class": "form-check-input",
+            "id": "datetime-toggle",
+            "role": "switch"
+        }
     )
     due_date = DateField(
         "Date",

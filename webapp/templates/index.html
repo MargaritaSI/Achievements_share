@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Achievement share</title>
+    <title>Achievements share</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   </head>
   <body>
@@ -19,13 +19,16 @@
         crossorigin="anonymous">
     </script>
     <script>
+        $("#datetime-toggle").change(function() {
+            $("#date-and-time").toggle()
+        })
         $("#selectPriority").change(function() {
             var value = $("#selectPriority option:selected").text();
             if (value == 'Medium' || value == 'Low') {
-                $("#timeDiv").css("display", "none")
+                $("#timeDiv").hide()
                 $("#timeInput").val("");
             } else {
-                $("#timeDiv").css("display", "block")
+                $("#timeDiv").show()
             }
         })
         $("input[name^=check_task]").click(function() {
@@ -33,7 +36,7 @@
                 $.post(
                     "{{ url_for('tasks.complete_task') }}",
                     { task_id: this.value },
-                      () => window.location.reload()
+                    () => window.location.reload()
                        /*
                             {
                                 checked = $(`#li-task-${this.value}`)

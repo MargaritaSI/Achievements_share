@@ -33,10 +33,12 @@
                                 <div class="col-11 text-break">
                                     {{task.task}}
                                     <div class="text-primary">
-                                        {% if title == "7 days" %}
-                                            {{ task.due.strftime("%a, %d %b %Y %H:%M") }}
-                                        {% else %}
-                                            {{task.due.strftime('%H:%M')}}
+                                        {% if task.due != None %}
+                                            {% if title == "7 days" %}
+                                                {{ task.due.strftime("%a, %d %b %Y %H:%M") }}
+                                            {% else %}
+                                                {{ task.due.strftime('%H:%M') }}
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -123,22 +125,30 @@
                     {{ form.priority.label(class="form-label") }}
                     {{ form.priority() }}
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        {{ form.due_date.label(class="form-label") }}
-                        {{ form.due_date() }}
+                <div class="mb-3 pt-1">
+                    <div class="form-check form-switch">
+                        {{ form.datetime_toggle.label(class="form-check-label") }}
+                        {{ form.datetime_toggle() }}
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group" id="timeDiv">
-                            {{ form.due_time.label(class="form-label") }}
-                            {{ form.due_time() }}
+                </div>
+                <div class="mb-3" id="date-and-time" style="display: none;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {{ form.due_date.label(class="form-label") }}
+                            {{ form.due_date() }}
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group" id="timeDiv">
+                                {{ form.due_time.label(class="form-label") }}
+                                {{ form.due_time() }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
             <a type="button" class="btn btn-secondary" href="{{url_for('tasks.add_task')}}">Cancel</a>
-            {{ form.submit() }}
+                {{ form.submit() }}
             </div>
         </form>
       </div>
