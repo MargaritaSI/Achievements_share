@@ -1,0 +1,75 @@
+{% extends "index.html" %}
+{% block content %}
+<div class = 'container vh-100'>
+    <div class="row justify-content-start h-100">
+        <div class="col-lg-2 col-sm-2 pt-3">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a href="#" class="link-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#addTask">
+                        + Add task
+                    </a>
+                </li>
+                <li class="list-group-item"><a href="{{ url_for('tasks.today') }}" class="nav-link">Today</a></li>
+                <li class="list-group-item"><a href="{{ url_for('tasks.tomorrow') }}" class="nav-link">Tomorrow</a></li>
+                <li class="list-group-item"><a href="{{ url_for('tasks.seven_days') }}" class="nav-link">7 days</a></li>
+                <li class="list-group-item"><a href="{{ url_for('tasks.telegram_sprints') }}" class="nav-link">Telegram sprints</a></li>
+                <li class="list-group-item">Notes</li>
+                <li class="list-group-item">Tags</li>
+                <li class="list-group-item">Habbits</li>
+                <li class="list-group-item">Calendar</li>
+            </ul>
+        </div>
+        <div class="col-lg-10 col-sm-10 p-3">
+            {% block tasks %} {% endblock %}
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="addTask" tabindex="-1" aria-labelledby="addTaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{ url_for('tasks.add_task') }}" method="POST">
+            <div class="modal-body">
+                <div class="mb-3">
+                    {{ form.task.label(class="form-label") }}
+                    {{ form.task() }}
+                </p>
+                </div>
+                <div class="mb-3">
+                    {{ form.priority.label(class="form-label") }}
+                    {{ form.priority() }}
+                </div>
+                <div class="mb-3 pt-1">
+                    <div class="form-check form-switch">
+                        {{ form.datetime_toggle.label(class="form-check-label") }}
+                        {{ form.datetime_toggle() }}
+                    </div>
+                </div>
+                <div class="mb-3" id="date-and-time" style="display: none;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {{ form.due_date.label(class="form-label") }}
+                            {{ form.due_date() }}
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group" id="timeDiv">
+                                {{ form.due_time.label(class="form-label") }}
+                                {{ form.due_time() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <a type="button" class="btn btn-secondary" href="{{url_for('tasks.add_task')}}">Cancel</a>
+                {{ form.submit() }}
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

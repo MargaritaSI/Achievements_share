@@ -1,0 +1,45 @@
+<li class="list-group-item" id="li-task-{{task.id}}">
+    <div class="row">
+        <div class="col-1">
+            <input class="form-check-input" type="checkbox" value="{{task.id}}" name="check_task{{task.id}}" />
+        </div>
+        <div class="col-10 text-break">
+            {{task.task}}
+            {% if task.telegram %}
+                <sup class="text-secondary">Sprint</sup>
+            {% endif %}
+            <div class="text-primary">
+                {% if task.due != None %}
+                    {% if title == "7 days" %}
+                        {% if task.priority == 1 %}
+                            {{ task.due.strftime("%a, %d %b %Y %H:%M") }}
+                        {% elif task.priority == 2 or task.priority == 3 %}
+                            {{ task.due.strftime("%a, %d %b %Y") }}                        
+                        {% endif %}
+                    {% else %}
+                        {% if task.priority == 1 %}
+                            {{ task.due.strftime('%H:%M') }}
+                        {% endif %}
+                    {% endif %}
+                {% endif %} 
+            </div>
+        </div>
+        <div class="col-1 text-break">
+            <span 
+                class="d-inline-block" 
+                tabindex="0" 
+                data-bs-toggle="tooltip" 
+                title="{% if task.telegram %}Remove from {% else %}Add to {% endif %}sprint"
+            >
+                <a 
+                    href="#" 
+                    class="text-decoration-none text-secondary" 
+                    value="{{task.id}}" 
+                    name="{% if task.telegram %}remove_from_{% else %}add_to_{% endif %}sprint_{{task.id}}" 
+                >
+                    {% if task.telegram %} - {% else %} + {% endif %}
+                </a>
+            </span>                                                                
+        </div>
+    </div>
+</li>

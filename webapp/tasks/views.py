@@ -4,8 +4,11 @@ from flask import Blueprint, redirect, request
 from sqlalchemy import func
 from sqlalchemy.sql import or_, and_
 from webapp.db import db
-from webapp.tasks.forms import AddTaskForm
-from webapp.tasks.utils import render_tasks
+from webapp.model import User
+from webapp.tasks.forms import AddTaskForm, TelegramSprintsForm
+from webapp.tasks.utils import (
+    render_tasks, render_telegram_sprints, change_sprint_status
+)
 from webapp.tasks.models import Tasks
 
 blueprint = Blueprint('tasks', __name__, url_prefix='/tasks')
@@ -41,6 +44,15 @@ def seven_days():
     return render_tasks(tasks_filter, '7 days')
 
 
+@blueprint.route('/telegram-sprints')
+def telegram_sprints():
+    tasks_filter = or_(
+        func.date(Tasks.due) >= date.today(),
+        Tasks.due == None
+    )
+    return render_telegram_sprints(tasks_filter)
+
+
 @blueprint.route('/add-task', methods=['GET', 'POST'])
 def add_task():
     form = AddTaskForm()
@@ -69,3 +81,22 @@ def complete_task():
     task.completed = True
     db.session.commit()
     return "Done"
+
+
+@blueprint.route('/add-to-sprint', methods=['POST'])
+def add_to_sprint():
+    return change_sprint_status(request.form['task_id'], True)
+
+
+@blueprint.route('/remove-from-sprint', methods=['POST'])
+def remove_from_sprint():
+    return change_sprint_status(request.form['task_id'], False)
+
+
+@blueprint.route('/telegram-username', methods=['POST'])
+def telegram_username():
+    form = TelegramSprintsForm()
+    task = User.query.filter(User.id == 123).first()
+    task.telegram_username = form.username.data
+    db.session.commit()
+    return redirect(request.referrer)

@@ -8,7 +8,7 @@ class User(db.Model):  # model=python class
     username = db.Column(db.String)
     privilege = db.Column(db.String)
     urgency = db.Column(db.String)
-    password = db.Column(db.String(4))  # with integers?
+    password = db.Column(db.String(120))  # with integers?
     todo_list = db.Column(db.String)
     name_business = db.Column(db.String)
     done = db.Column(db.String)
@@ -16,3 +16,4 @@ class User(db.Model):  # model=python class
     data_business = db.Column(db.Integer)
     # max len string + unic email
     email = db.Column(db.String(120), unique=True)
+    telegram_username = db.Column(db.String(120), unique=True)

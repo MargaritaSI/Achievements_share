@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import (
-    BooleanField, DateField, SelectField,
+    BooleanField, DateField, SelectField, StringField,
     SubmitField, TextAreaField, TimeField,
 )
 from wtforms.validators import DataRequired
@@ -41,5 +41,23 @@ class AddTaskForm(FlaskForm):
     )
     submit = SubmitField(
         'Add task',
+        render_kw={"class": "btn btn-primary"}
+    )
+
+
+class TelegramSprintsForm(FlaskForm):
+    username = StringField(
+        'Your telegram username',
+        validators=[DataRequired()],
+        render_kw={
+            "class": "form-control",
+            "id": "username",
+            "placeholder": "Username",
+            "aria-label": "Username",
+            "aria-describedby": "basic-addon1"
+        }
+    )
+    submit = SubmitField(
+        'Save',
         render_kw={"class": "btn btn-primary"}
     )
