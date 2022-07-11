@@ -21,7 +21,7 @@
         <div class="col-4">
             <h2> weather forecast </h2>
             {% if weather_text %}
-                weather now: {{ weather_text.temp_C }}, feels like {{ weather_text.FeelsLikeC }}
+                weather now: {{ weather_text.temp }}, feels like {{ weather_text.feels_like }}
             {% else %}
                 weather service currently is unavailable
             {% endif %}
