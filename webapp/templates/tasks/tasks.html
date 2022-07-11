@@ -64,8 +64,10 @@
                                         <label class="form-check-label">
                                             {{task.task}}
                                             <div class="text-primary">
-                                                {% if title == "7 days" %}
-                                                    {{ task.due.strftime("%a, %d %b %Y") }}
+                                                {% if task.due != None %}
+                                                    {% if title == "7 days" %}
+                                                        {{ task.due.strftime("%a, %d %b %Y") }}
+                                                    {% endif %}
                                                 {% endif %}
                                             </div>
                                         </label>
@@ -91,8 +93,10 @@
                                     <label class="form-check-label">
                                         {{task.task}}
                                         <div class="text-primary">
-                                            {% if title == "7 days" %}
-                                                {{ task.due.strftime("%a, %d %b %Y") }}
+                                            {% if task.due != None %}
+                                                {% if title == "7 days" %}
+                                                    {{ task.due.strftime("%a, %d %b %Y") }}
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                     </label>
