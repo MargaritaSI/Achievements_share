@@ -9,6 +9,7 @@ blueprint = Blueprint("news", __name__)
 @blueprint.route("/")
 def index():
     weather = weather_by_city(current_app.config['WEATHER_DEFAULT_CITY'])
+    print(weather)
     try:
         news_list = News.query.filter(News.disabled == False)
         news_list = news_list.order_by(News.published.desc())
