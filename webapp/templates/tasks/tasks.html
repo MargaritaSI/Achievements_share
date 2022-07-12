@@ -1,0 +1,41 @@
+{% extends "tasks/tasks-menu.html" %}
+{% block tasks %}
+<div class="row">
+    <div class="col-lg-6">
+        <h4>{{ title.capitalize() }}</h4>
+        {% if total_count == 0 %}
+            No tasks for today.
+        {% endif %}
+        <ul class="list-group list-group-flush">
+            {% for task in tasks_list %}
+                {% if task.priority == 1 %}
+                    {% include "tasks/task.html" %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-lg-6">
+        {% if medimum_count > 0 %}
+            <h4>Medium priority</h4>
+            <ul class="list-group list-group-flush mb-4">
+                {% set due_date = {'foo': False} %}
+                {% for task in tasks_list %}
+                    {% if task.priority == 2 %}
+                        {% include "tasks/task.html" %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if low_count > 0 %}
+        <h4>Low priority</h4>
+            <ul class="list-group list-group-flush">
+                {% for task in tasks_list %}
+                    {% if task.priority == 3 %}
+                        {% include "tasks/task.html" %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
