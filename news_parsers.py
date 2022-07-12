@@ -57,6 +57,8 @@ def parse_medium_article(soup):
         title = article.find('h2').text
         article_attrs = {"aria-label": "Post Preview Image"}
         url = article.find('a', attrs=article_attrs)
+        if url == None:
+            continue
         url = f"https://medium.com{url['href'].split('?')[0]}"
         articles.append(("Medium", title, url))
     return articles

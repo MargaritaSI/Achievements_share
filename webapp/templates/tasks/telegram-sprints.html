@@ -24,16 +24,7 @@
         {% endif %}
         <ul class="list-group list-group-flush">
             {% for task in tasks_list %}
-                <li class="list-group-item" id="li-task-{{task.id}}">
-                    <div class="row">
-                        <div class="col-1">
-                            <input class="form-check-input" type="checkbox" value="{{task.id}}" name="check_task{{task.id}}" />
-                        </div>
-                        <div class="col-10 text-break">
-                            {{task.task}}
-                        </div>
-                    </div>
-                </li>
+                {% include "tasks/task.html" %}
             {% endfor %}
         </ul>
     </div>

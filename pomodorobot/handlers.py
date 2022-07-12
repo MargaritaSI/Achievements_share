@@ -1,5 +1,10 @@
 import constants
 
+from datetime import date
+
+from sqlalchemy import func
+from sqlalchemy.sql import or_
+
 from utils import get_message
 from utils import get_settings_message
 from utils import remove_job_if_exists
@@ -9,6 +14,22 @@ from utils import settings_keyboard
 from utils import check_sprint_settings
 
 from telegram.ext import ConversationHandler
+
+from pprint import pprint
+
+import inspect
+import os
+currentdir = os.path.dirname(
+    os.path.abspath(inspect.getfile(inspect.currentframe()))
+)
+parentdir = os.path.dirname(currentdir)
+os.sys.path.insert(0, parentdir)
+
+from webapp.model import User
+from webapp.tasks.models import Tasks
+from webapp import create_app
+
+app = create_app()
 
 
 CHOOSING = constants.CHOOSING
@@ -170,3 +191,28 @@ def unset_timer(update, context):
     else:
         text = "You have no active pomodoros."
     send_message(update, text)
+
+
+def tasks(update, context):
+    with app.app_context():
+        username = update.message.from_user.username
+        tasks = Tasks.query\
+            .join(User, User.id == Tasks.user_id)\
+            .filter(User.telegram_username == username)\
+            .filter(Tasks.telegram == True)\
+            .filter(Tasks.completed == False)\
+            .filter(or_(
+               func.date(Tasks.due) >= date.today(),
+               Tasks.due == None
+            ))
+
+        if tasks.count() == 0:
+            message = "No tasks"
+        else:
+            message = "Sprint tasks:\n\n"
+            for task in tasks:
+                first_word = len(task.task.split()[0])
+                if first_word > 40:
+                    task.task = task.task[:40] + '\n' + task.task[40:]
+                message += f"- {task.task}\n"
+        send_message(update, message)

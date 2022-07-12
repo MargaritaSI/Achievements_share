@@ -5,7 +5,7 @@
         </div>
         <div class="col-10 text-break">
             {{task.task}}
-            {% if task.telegram %}
+            {% if task.telegram and title != "Telegram sprints" %}
                 <sup class="text-secondary">Sprint</sup>
             {% endif %}
             <div class="text-primary">

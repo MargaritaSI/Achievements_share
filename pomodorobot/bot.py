@@ -12,6 +12,7 @@ from handlers import set_timer
 from handlers import settings_start
 from handlers import start_sprint
 from handlers import unset_timer
+from handlers import tasks
 
 from telegram.ext import CommandHandler
 from telegram.ext import Filters
@@ -29,9 +30,10 @@ def main():
     updater = Updater(settings.API_KEY, use_context=True)
 
     updater.dispatcher.add_handler(CommandHandler('help', help))
+    updater.dispatcher.add_handler(CommandHandler('repeat', repeat))
     updater.dispatcher.add_handler(CommandHandler('stats', report_stats))
     updater.dispatcher.add_handler(CommandHandler('stop', unset_timer))
-    updater.dispatcher.add_handler(CommandHandler('repeat', repeat))
+    updater.dispatcher.add_handler(CommandHandler('tasks', tasks))
 
     updater.dispatcher.add_handler(
         CommandHandler('start_sprint', start_sprint)
