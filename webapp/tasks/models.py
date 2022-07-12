@@ -10,6 +10,7 @@ class Tasks(db.Model):
     priority = db.Column(db.Integer)
     due = db.Column(db.DateTime)
     completed = db.Column(db.Boolean, default=False)
+    completion_time = db.Column(db.DateTime)
     shared = db.Column(db.Boolean, default=False)
     telegram = db.Column(db.Boolean, default=False)
 

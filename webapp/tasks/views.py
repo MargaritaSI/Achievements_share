@@ -79,6 +79,7 @@ def complete_task():
     id = request.form['task_id']
     task = Tasks.query.filter(Tasks.id == id).first()
     task.completed = True
+    task.completion_time = datetime.now()
     db.session.commit()
     return "Done"
 
