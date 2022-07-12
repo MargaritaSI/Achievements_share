@@ -9,7 +9,7 @@
                 <sup class="text-secondary">Sprint</sup>
             {% endif %}
             <div class="text-primary">
-                {% if task.due != None %}
+                {% if task.due != None and title != "Telegram sprints" %}
                     {% if title == "7 days" %}
                         {% if task.priority == 1 %}
                             {{ task.due.strftime("%a, %d %b %Y %H:%M") }}
