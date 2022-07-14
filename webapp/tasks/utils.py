@@ -2,7 +2,7 @@ from flask import render_template
 from sqlalchemy import nullslast
 from webapp.tasks.models import Tasks
 from webapp.tasks.forms import AddTaskForm, TelegramSprintsForm
-from webapp.model import User
+from webapp.user.models import User
 from webapp.db import db
 
 

@@ -4,7 +4,7 @@ from flask import Blueprint, redirect, request
 from sqlalchemy import func
 from sqlalchemy.sql import or_, and_
 from webapp.db import db
-from webapp.model import User
+from webapp.user.models import User
 from webapp.tasks.forms import AddTaskForm, TelegramSprintsForm
 from webapp.tasks.utils import (
     render_tasks, render_telegram_sprints, change_sprint_status

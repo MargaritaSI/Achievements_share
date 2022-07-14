@@ -1,27 +1,28 @@
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash  # for password
 
 from webapp.db import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), index=True, unique=True)
-    password = db.Column(db.String(128))  # from def set_password
-    role = db.Column(db.String(10), index=True)  # admin or user
+class User(db.Model, UserMixin):  # model=python class
+    __tablename__ = 'users'  # creat spreadsheet
 
-    def set_password(self, password):  #
-        self.password = generate_password_hash(password)
+    id = db.Column(db.Integer, primary_key=True)  # creat columns
+    username = db.Column(db.String)
+    password = db.Column(db.String(120))  # with integers?
+    email = db.Column(db.String(120), unique=True)
+    telegram_username = db.Column(db.String(120), unique=True)
+
+    # method called when we display user instance in command line
+    def __repr__(self):
+        # we can see id + name.. of user for our understanding
+        return (
+            f"User {self.id}, {self.username}, {self.password}, "
+            f"{self.email}, {self.telegram_username}"
+        )
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-        ''' True/false - compares encrypted password from database and password from user (encrypted leter with def set_password)'''
 
-    @property  # decorator call method like an attribute/property without '()'
-    def is_admin(self): # if admin - return True, other - false
-        return self.role == 'admin'  # check for an administrator role
-
-    def __repr__(self):
-        return '<User name={} id={}>'.format(self.username, self.id)  # we could see name
-
-
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
