@@ -1,6 +1,8 @@
 from flask import render_template
 from flask_login import current_user
 
+import requests
+
 from webapp.tasks.models import Tasks
 from webapp.tasks.forms import AddTaskForm, TelegramSprintsForm
 from webapp.user.models import User
@@ -23,6 +25,7 @@ def render_tasks(tasks_filter, title):
     return render_template(
         'tasks/tasks.html',
         page="tasks",
+        avatar=get_avatar(current_user.username),
         title=title,
         tasks_list=tasks_list,
         medimum_count=medimum_count,
@@ -54,6 +57,7 @@ def render_telegram_sprints(tasks_filter):
         'tasks/telegram-sprints.html',
         page="tasks",
         title="Telegram sprints",
+        avatar=get_avatar(current_user.username),
         tasks_list=tasks_list,
         total_count=total_count,
         form=add_task_form,
@@ -67,3 +71,15 @@ def change_sprint_status(id, status):
     task.telegram = status
     db.session.commit()
     return "Done"
+
+
+def get_avatar(username):
+    username = current_user.username
+    try:
+        avatar = requests.get(
+            f'https://avatars.dicebear.com/api/jdenticon/{username}.svg',
+            {'size': '30'}
+        ).text
+    except:
+        avatar = None
+    return avatar

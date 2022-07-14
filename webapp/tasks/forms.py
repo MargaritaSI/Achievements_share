@@ -48,7 +48,6 @@ class AddTaskForm(FlaskForm):
 class TelegramSprintsForm(FlaskForm):
     username = StringField(
         'Your telegram username',
-        validators=[DataRequired()],
         render_kw={
             "class": "form-control",
             "id": "username",

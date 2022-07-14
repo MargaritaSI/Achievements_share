@@ -15,7 +15,6 @@ from utils import check_sprint_settings
 
 from telegram.ext import ConversationHandler
 
-from pprint import pprint
 
 import inspect
 import os
@@ -25,7 +24,7 @@ currentdir = os.path.dirname(
 parentdir = os.path.dirname(currentdir)
 os.sys.path.insert(0, parentdir)
 
-from webapp.model import User
+from webapp.user.models import User
 from webapp.tasks.models import Tasks
 from webapp import create_app
 

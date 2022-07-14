@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):  # model=python class
     username = db.Column(db.String)
     password = db.Column(db.String(120))  # with integers?
     email = db.Column(db.String(120), unique=True)
-    telegram_username = db.Column(db.String(120), unique=True)
+    telegram_username = db.Column(db.String(120))
 
     # method called when we display user instance in command line
     def __repr__(self):
