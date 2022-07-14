@@ -1,8 +1,12 @@
 
 from datetime import date, datetime, timedelta
+
 from flask import Blueprint, redirect, request
+from flask_login import current_user
+
 from sqlalchemy import func
 from sqlalchemy.sql import or_, and_
+
 from webapp.db import db
 from webapp.user.models import User
 from webapp.tasks.forms import AddTaskForm, TelegramSprintsForm
@@ -63,7 +67,7 @@ def add_task():
             due = form.due_date.data
 
         new_task = Tasks(
-            user_id=123,
+            user_id=current_user.id,
             task=form.task.data,
             priority=form.priority.data,
             due=due if form.datetime_toggle.data else None
@@ -97,7 +101,7 @@ def remove_from_sprint():
 @blueprint.route('/telegram-username', methods=['POST'])
 def telegram_username():
     form = TelegramSprintsForm()
-    task = User.query.filter(User.id == 123).first()
+    task = User.query.filter(User.id == current_user.id).first()
     task.telegram_username = form.username.data
     db.session.commit()
     return redirect(request.referrer)

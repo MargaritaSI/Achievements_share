@@ -1,5 +1,6 @@
 from flask import render_template
-from sqlalchemy import nullslast
+from flask_login import current_user
+
 from webapp.tasks.models import Tasks
 from webapp.tasks.forms import AddTaskForm, TelegramSprintsForm
 from webapp.user.models import User
@@ -8,6 +9,7 @@ from webapp.db import db
 
 def render_tasks(tasks_filter, title):
     tasks_list = Tasks.query.filter(
+        Tasks.user_id == current_user.id,
         Tasks.completed == False,
         tasks_filter
     ).order_by(Tasks.due.asc(), Tasks.id.asc())
@@ -32,6 +34,7 @@ def render_tasks(tasks_filter, title):
 
 def render_telegram_sprints(tasks_filter):
     tasks_list = Tasks.query.filter(
+        Tasks.user_id == current_user.id,
         Tasks.completed == False,
         Tasks.telegram == True,
         tasks_filter
@@ -42,7 +45,9 @@ def render_telegram_sprints(tasks_filter):
 
     total_count = tasks_list.count()
 
-    users = User.query.filter(User.id == 123, User.telegram_username != None)
+    users = User.query.filter(
+        User.id == current_user.id, User.telegram_username != None
+    )
     telegram = users[0].telegram_username if users.count() > 0 else ''
 
     return render_template(
