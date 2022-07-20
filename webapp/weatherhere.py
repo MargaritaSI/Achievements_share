@@ -24,4 +24,3 @@ def weather_by_city(name):
 
 if __name__ == "__main__":
     weather = weather_by_city("Amsterdam,Netherlands")
-    print(weather)

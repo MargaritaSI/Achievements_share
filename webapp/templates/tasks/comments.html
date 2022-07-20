@@ -1,11 +1,8 @@
-<li class="list-group-item" id="li-task-{{task.id}}">
+{% extends "tasks/tasks-menu.html" %}
+{% block tasks %}
     <div class="row">
         <div class="col-1">
-            {% if title != "Shared" %}
-                <input class="form-check-input" type="checkbox" value="{{task.id}}" name="check_task{{task.id}}" />
-            {% else %}
-                <img src="https://avatars.dicebear.com/api/jdenticon/{{task.user.username}}.svg?size=30"/>
-            {% endif %}
+            <img src="https://avatars.dicebear.com/api/jdenticon/{{task.user.username}}.svg?size=30"/>
         </div>
         <div class="col-9 text-break">
             {{task.task}}
@@ -29,9 +26,10 @@
     <div class="row">
         <div class="col-1">
         </div>
-
         <div class="col-11" style="font-size: 9pt">
-            {% if title != "Shared" %}
+            by {{ task.user.username }}
+            {% if task.user_id == current_user.id %}
+            |
             <span
                 class="d-inline-block"
                 tabindex="0"
@@ -63,13 +61,48 @@
                     {% if task.shared %} Stop sharing {% else %} Share {% endif %}
                 </a>
             </span>
-            {% else %}
-                by {{ task.user.username }}
             {% endif %}
-            |
-            <span class="d-inline-block">
-                <a href="{{ url_for('tasks.task', task_id=task.id) }}">Comments: {{task.comments_count()}}</a>
-            </span>
         </div>
     </div>
-</li>
+    <div class="row">
+        <div class="col-1">
+        </div>
+        <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 p-2" style="font-size: 9pt">
+            <form action="{{ url_for('tasks.add_task_comment') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        {{add_task_comment_form.hidden_tag()}}
+                        {{ add_task_comment_form.comment() }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{ add_task_comment_form.submit() }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 p-2">
+            {% if total_count == 0 %}
+                No comments so far.
+            {% endif %}
+            <ul class="list-group list-group-flush">
+                {% for comment in comments %}
+                <li class="list-group-item" id="li-comment-{{comment.id}}">
+                    <div class="row">
+                        <div class="col-1">
+                            <img src="https://avatars.dicebear.com/api/jdenticon/{{comment.user.username}}.svg?size=30"/>
+                        </div>
+                        <div class="col-11" >
+                            <div class="text-decoration-none text-secondary" style="font-size: 9pt">
+                            {{comment.user.username}} | {{ comment.submitted_time.strftime("%a, %d %b %Y %H:%M") }}
+                            </div>
+                            {{comment.comment}}
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

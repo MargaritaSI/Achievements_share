@@ -1,5 +1,5 @@
 from flask import Blueprint, current_app, render_template
-from flask_login import current_user
+from flask_login import current_user, login_required
 from sqlalchemy.exc import OperationalError
 from webapp.weatherhere import weather_by_city
 from webapp.news.models import News
@@ -9,9 +9,9 @@ blueprint = Blueprint("news", __name__)
 
 
 @blueprint.route("/")
+@login_required
 def index():
     weather = weather_by_city(current_app.config['WEATHER_DEFAULT_CITY'])
-    print(weather)
     try:
         news_list = News.query.filter(News.disabled == False)
         news_list = news_list.order_by(News.published.desc())

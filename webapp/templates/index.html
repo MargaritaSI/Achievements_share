@@ -46,6 +46,20 @@
                 () => window.location.reload()
             );
         });
+        $("a[name^=share_]").click(function() {
+            $.post(
+                "{{ url_for('tasks.share') }}",
+                { task_id: $(this).attr('value') },
+                () => window.location.reload()
+            );
+        });
+        $("a[name^=stop_sharing]").click(function() {
+            $.post(
+                "{{ url_for('tasks.stop_sharing') }}",
+                { task_id: $(this).attr('value') },
+                () => window.location.reload()
+            );
+        });
         $("input[name^=check_task]").click(function() {
             if($(this).is(":checked")) {
                 $.post(

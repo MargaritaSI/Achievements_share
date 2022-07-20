@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import (
     BooleanField, DateField, SelectField, StringField,
-    SubmitField, TextAreaField, TimeField,
+    SubmitField, TextAreaField, TimeField, HiddenField
 )
 from wtforms.validators import DataRequired
 
@@ -58,5 +58,17 @@ class TelegramSprintsForm(FlaskForm):
     )
     submit = SubmitField(
         'Save',
+        render_kw={"class": "btn btn-primary"}
+    )
+
+
+class AddTaskComment(FlaskForm):
+    comment = TextAreaField(
+        validators=[DataRequired()],
+        render_kw={"class": "form-control", "rows": "3"}
+    )
+    task_id = HiddenField()
+    submit = SubmitField(
+        'Add comment',
         render_kw={"class": "btn btn-primary"}
     )
