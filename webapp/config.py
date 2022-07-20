@@ -1,3 +1,5 @@
+from datetime import timedelta # Duration of saving the authorization status
+
 import os  # path module
 
 # specifies the full path to config.py
@@ -11,3 +13,5 @@ SQLALCHEMY_DATABASE_URI = "postgresql://ihrdrkcc:b2mIYt4Nbfb63ML80X3LmmBnF_VXOUv
 SQLALCHEMY_TRACK_MODIFICATIONS = False # SQLalch gives signt if smth changes (big resurses)
 
 SECRET_KEY = 'OISDH.jh-hkjds'
+
+REMEMBER_COOKIE_DURATION= timedelta(days=5)

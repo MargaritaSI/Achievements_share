@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% block content %}
+<div class = 'container vh-100'>
+    <div class="row justify-content-center mt-5">
+        <div class="col-4">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <form action="{{ url_for('user.process_reg') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.username.label }}<br>
+                    {{ form.username() }}
+                </p>
+                <p>
+                    {{ form.email.label }}<br>
+                    {{ form.email() }}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password() }}
+                </p>
+                <p>
+                    {{ form.password2.label }}<br>
+                    {{ form.password2() }}
+                </p>
+                <p> {{ form.submit() }} </p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
