@@ -15,7 +15,7 @@ folder: 'pomodorobot'
 
 ![Tasks for today](https://github.com/MargaritaSI/pic/raw/main/image/Tasks_today.png)
 
-![Image alt](https://github.com/{MargaritaSI}/{pic}/raw/{main}/{path}/Tasks_today.png)
+![Adding tasks](https://github.com/{MargaritaSI}/{pic}/raw/{main}/{path}/add_Task.jpg)
 
 {username} — ваш ник на ГитХабе;
 {repository} — репозиторий где хранятся картинки;
