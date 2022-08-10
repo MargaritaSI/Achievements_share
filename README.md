@@ -13,6 +13,15 @@ folder: 'pomodorobot'
 ![Adding loging for sending tasks in Telegram](/Users/margaritasmyslava/Desktop/4 telegram.jpg)
 
 
+![Tasks for today](https://github.com/MargaritaSI/pic/raw/main/image/Tasks_today.png)
+
+![Image alt](https://github.com/{MargaritaSI}/{pic}/raw/{main}/{path}/Tasks_today.png)
+
+{username} — ваш ник на ГитХабе;
+{repository} — репозиторий где хранятся картинки;
+{branch} — ветка репозитория;
+{path} — путь к месту нахождения картинки.
+
 ##Roadmap
 I plan to add to the project:
 notes,
