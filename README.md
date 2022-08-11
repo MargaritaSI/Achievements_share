@@ -7,20 +7,10 @@ folder: 'pomodorobot'
 
 
 ##Examples
-![the main page: Achievements with weather](/Users/margaritasmyslava/Desktop/1 Achievements, weather.jpg)
-![Tasks for today](/Users/margaritasmyslava/Desktop/2 Tasks today.jpg)
-![Adding tasks](/Users/margaritasmyslava/Desktop/3 add Task.jpg)
-![Adding loging for sending tasks in Telegram](/Users/margaritasmyslava/Desktop/4 telegram.jpg)
-
-
-![Tasks for today](https://github.com/MargaritaSI/pic/raw/main/image/Tasks_today.png)
-
-![Adding tasks](https://github.com/{MargaritaSI}/{pic}/raw/{main}/{path}/add_Task.jpg)
-
-{username} — ваш ник на ГитХабе;
-{repository} — репозиторий где хранятся картинки;
-{branch} — ветка репозитория;
-{path} — путь к месту нахождения картинки.
+![the main page: Achievements with weather](Achievements_weather.png)
+![Tasks for today](Tasks_today.png)
+![Adding tasks](add_Task.jpg)
+![Adding loging for sending tasks in Telegram](telegram.png)
 
 ##Roadmap
 I plan to add to the project:
