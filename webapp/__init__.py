@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_login import LoginManager  # LoginManager -managing login process
+from flask_login import LoginManager
 from flask_migrate import Migrate
 
 from webapp.db import db

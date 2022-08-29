@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
 from webapp.user.models import User
-from wtforms import BooleanField, StringField, PasswordField, \
-    SubmitField  # field + bottom, BooleanField - for remember user
-# auto check of login form content
+from wtforms import BooleanField, StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 
@@ -23,7 +21,7 @@ class LoginForm(FlaskForm):
         render_kw={'class': 'form-check-input'}
     )
     submit = SubmitField(
-        'Send!',
+        'Login',
         render_kw={'class': 'btn btn-primary'}
     )
 

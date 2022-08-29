@@ -1,12 +1,19 @@
+from datetime import date
+from webapp.db import db
+
 from flask import render_template
 from flask_login import current_user
 
+from sqlalchemy import func, nullslast
+from sqlalchemy.sql import or_
+
 import requests
 
-from webapp.tasks.models import Tasks
-from webapp.tasks.forms import AddTaskForm, TelegramSprintsForm
+from webapp.tasks.forms import \
+    AddTaskForm, TelegramSprintsForm, AddTaskComment
+
+from webapp.tasks.models import Tasks, TaskComments
 from webapp.user.models import User
-from webapp.db import db
 
 
 def render_tasks(tasks_filter, title):
@@ -66,9 +73,62 @@ def render_telegram_sprints(tasks_filter):
     )
 
 
+def render_shared():
+    tasks_list = Tasks.query.filter(
+        Tasks.completed == False,
+        Tasks.shared == True,
+        or_(func.date(Tasks.due) >= date.today(), Tasks.due == None)
+    ).order_by(
+        nullslast(Tasks.created_time.desc()), Tasks.due.asc(), Tasks.id.asc()
+    )
+
+    add_task_form = AddTaskForm()
+
+    return render_template(
+        'tasks/shared.html',
+        page="tasks",
+        title="Shared",
+        avatar=get_avatar(current_user.username),
+        tasks_list=tasks_list,
+        total_count=tasks_list.count(),
+        form=add_task_form,
+    )
+
+
+def render_task(task_id):
+    task = Tasks.query.filter(
+         Tasks.id == task_id
+    ).first()
+
+    comments = TaskComments.query.filter(
+        TaskComments.task_id == task_id
+    ).order_by(TaskComments.submitted_time.asc()).all()
+
+    add_task_form = AddTaskForm()
+    add_task_comment_form = AddTaskComment(task_id=task_id)
+
+    return render_template(
+        'tasks/comments.html',
+        page="task-comments",
+        title="Comments",
+        avatar=get_avatar(current_user.username),
+        form=add_task_form,
+        add_task_comment_form=add_task_comment_form,
+        task=task,
+        comments=comments
+    )
+
+
 def change_sprint_status(id, status):
     task = Tasks.query.filter(Tasks.id == id).first()
     task.telegram = status
+    db.session.commit()
+    return "Done"
+
+
+def change_shared(id, status):
+    task = Tasks.query.filter(Tasks.id == id).first()
+    task.shared = status
     db.session.commit()
     return "Done"
 
